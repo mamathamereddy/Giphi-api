@@ -1,36 +1,45 @@
-const input = document.getElementById('giphy_name');
-const totalGifs = document.getElementById('totalGifs');
-const btn = document.getElementById('btn');
-const msg=document.getElementById('errorMsg')
+const input = document.getElementById("giphy_name");
+const totalGifs = document.getElementById("totalGifs");
+const btn = document.getElementById("btn");
+const msg = document.getElementById("errorMsg");
 
-btn.addEventListener('click', () => {
+btn.addEventListener("click", () => {
   if (input.value) {
     const gifName = input.value.toLowerCase();
     if (totalGifs.value) {
-      url='https://api.giphy.com/v1/gifs/search?q=' + gifName+'&limit=' +totalGifs.value +'&api_key=HCRI89ixujLx2ZrfrZEmkrItQzVetl68'
+      url =
+        "https://api.giphy.com/v1/gifs/search?q=" +
+        gifName +
+        "&limit=" +
+        totalGifs.value +
+        "&api_key=HCRI89ixujLx2ZrfrZEmkrItQzVetl68";
     } else {
-      url='https://api.giphy.com/v1/gifs/search?q=' + gifName+'&api_key=HCRI89ixujLx2ZrfrZEmkrItQzVetl68'
+      url =
+        "https://api.giphy.com/v1/gifs/search?q=" +
+        gifName +
+        "&api_key=HCRI89ixujLx2ZrfrZEmkrItQzVetl68";
     }
     fetch(url)
-    .then(respnse=>respnse.json())
-    //.then(response=>console.log(response))
-    .then (response => renderGifData (response));
+      .then((respnse) => respnse.json())
+      //.then(response=>console.log(response))
+      .then((response) => renderGifData(response));
   } else {
-    msg.innerHTML='Please enter the gif name';
+    msg.innerHTML = "Please enter the gif name";
     return false;
   }
+  input.value = "";
+  totalGifs.value = "";
+  output.innerHTML = "";
 });
 function renderGifData(response) {
-  msg.innerHTML=" ";
+  msg.innerHTML = " ";
   const outputDiv = document.querySelector("#output");
   //console.log(response.data)
-  const urlArray = response.data.map(element => element.images.original.url);
+  const urlArray = response.data.map((element) => element.images.original.url);
   //console.log( urlArray)
-  urlArray.forEach(element => {
+  urlArray.forEach((element) => {
     const img = document.createElement("img");
     outputDiv.appendChild(img);
-    img.src=element;
-  })
- 
+    img.src = element;
+  });
 }
- 
